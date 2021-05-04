@@ -16,7 +16,7 @@ Here are some ideas to get you started:
 -->
 
 ### 🌱 I’m currently studying
-<img src="https://i.ibb.co/dMnsbrD/ISO-C-Logo.png" alt="c++" >  <img src="https://i.ibb.co/pPj1TvV/java-svgrepo-com.png" alt="java">
+<img src="https://i.ibb.co/dMnsbrD/ISO-C-Logo.png" alt="c++" >  <img src="https://i.ibb.co/1vgCrKN/ARM-architecture-Logo-wine.png" alt="asm">  <img src="https://i.ibb.co/pPj1TvV/java-svgrepo-com.png" alt="java">
 
 ### 🍙 I usually use
 <img src="https://i.ibb.co/12Rc3Hk/Python-logo-notext.png" alt="python3">  <img src="https://camo.githubusercontent.com/8607a329d918377a9074825409a10140f6b87d7bd18463416e5ce59aefd3c5f3/68747470733a2f2f63646e2e69636f6e2d69636f6e732e636f6d2f69636f6e73322f323431352f504e472f3531322f6a6176617363726970745f6f726967696e616c5f6c6f676f5f69636f6e5f3134363435352e706e67" alt="javascript" width="64"> 
