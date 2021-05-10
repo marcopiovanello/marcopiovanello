@@ -1,5 +1,5 @@
 ### Hi there 👋
-Hi i'm oppaoppai (Marco irl) a computer engineering student with a passion for shoegaze and alternative rock music, that's all :)
+Hi i'm shoegazeryu (Marco irl) a computer engineering student with a passion for shoegaze and alternative rock music, that's all :)
 <!--
 **oppaoppai/oppaoppai** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
