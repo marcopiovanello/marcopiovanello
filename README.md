@@ -40,7 +40,7 @@ Here are some ideas to get you started:
 <br><br/>
 ---    
 ### Stats
-![stats](https://github-readme-stats.vercel.app/api/top-langs?username=marcopeocchi&show_icons=true&locale=en&layout=compact&langs_count=8&hide=scss,html,jinja,dockerfile,shell&exclude_repo=animeandromeda-react)
+![stats](https://github-readme-stats.vercel.app/api/top-langs?username=marcopeocchi&show_icons=true&locale=en&layout=compact&langs_count=8&hide=scss,html,jinja,dockerfile&exclude_repo=animeandromeda-react)
 <br><br/>
 ---
 ***🌊 Peocchi -> Maiming of Peoci -> Typical Veneto plate 🐟***
