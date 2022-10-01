@@ -43,4 +43,7 @@ Here are some ideas to get you started:
 ![stats](https://github-readme-stats.vercel.app/api/top-langs?username=marcopeocchi&show_icons=true&locale=en&layout=compact&langs_count=8&hide=scss,html,jinja,dockerfile&exclude_repo=animeandromeda-react)
 <br><br/>
 ---
+
+[![@marcopeocchi's Holopin board](https://holopin.io/api/user/board?user=marcopeocchi)](https://holopin.io/@marcopeocchi)
+
 ***🌊 Peocchi -> Maiming of Peoci -> Typical Veneto plate 🐟***
