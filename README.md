@@ -23,7 +23,8 @@ Here are some ideas to get you started:
 -->
 
 ### 📚 I’m currently studying
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" width="64"/>
+- Databases
+<!--<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" width="64"/>-->
 <!--<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" width="64"/>-->
 <!--<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" width="64"/>-->
 <!--<img src="https://i.ibb.co/1vgCrKN/ARM-architecture-Logo-wine.png" alt="asm">-->
