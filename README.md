@@ -22,6 +22,8 @@ That's all :)
 <br><br/>
 ---
 
+![activity](https://spotify-recently-played-readme.vercel.app/api?user=fsa30toge60lrw4vg0uicutfk)
+
 ### Holopin drip
 [![@marcopeocchi's Holopin board](https://holopin.io/api/user/board?user=marcopeocchi)](https://holopin.io/@marcopeocchi)
 
