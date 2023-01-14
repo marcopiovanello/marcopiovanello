@@ -4,9 +4,8 @@ Hi i'm Marco, a computer engineering student.
 That's all :) 
 
 ### ✨ \<aside\> from being a dev ✨
-- K-pop enthusiast
+- K-pop and power metal enthusiast (funny, right?)
 - Middle distance runner
-- F1 enjoyer
 
 ### ❤️ Technologies I love to use ❤️
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="64"/>  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="64"/>
