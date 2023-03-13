@@ -10,8 +10,8 @@ That's all :)
 - Middle distance runner
 
 ### ❤️ Technologies I love to use ❤️
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="64"/>  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="64"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" width="64"/>          
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" width="64"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="64"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="64"/>         
 
           
 ### 🐓 Currently working with 🐓
@@ -19,7 +19,7 @@ That's all :)
 <br><br/>
 ---    
 ### Some stats
-![stats](https://github-readme-stats.vercel.app/api/top-langs?username=marcopeocchi&show_icons=true&locale=en&layout=compact&langs_count=8&hide=scss,html,jinja,dockerfile&exclude_repo=animeandromeda-react)
+![stats](https://github-readme-stats.vercel.app/api/top-langs?username=marcopeocchi&show_icons=true&locale=en&layout=compact)
 <br><br/>
 ---
 
