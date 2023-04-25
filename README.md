@@ -2,6 +2,7 @@
 Hi i'm Marco, a computer engineering student.    
 
 Gopher.
+Typescript evangelist.
 
 That's all :) 
 
