@@ -9,6 +9,7 @@ That's all :)
 ### ✨ \<aside\> from being a dev ✨
 - K-pop and power metal enthusiast (funny, right?)
 - Middle distance runner
+- Powerlifter 60Kg cat.
 
 ### ❤️ Technologies I love to use ❤️
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" width="64"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="64"/>
