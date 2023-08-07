@@ -1,25 +1,26 @@
 ## Hi there!
 Hi i'm Marco, a computer engineering student.    
+Kpop and power metal enthusiast (ehm, what?). Middle distance runner.
 
-Gopher.
+Gopher.  
 Typescript evangelist.
 
-That's all :) 
-
-### ✨ \<aside\> from being a dev ✨
-- K-pop and power metal enthusiast (funny, right?)
-- Middle distance runner
+That's all 🤠
 
 ### ❤️ Technologies I love to use ❤️
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" width="64"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="64"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="64"/>         
+
+[![](https://skillicons.dev/icons?i=go,typescript,svelte,react,tailwind,mui,reactivex)](https://skillicons.dev)
 
           
 ### 🐓 Currently working with 🐓
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" width="64"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg" width="64"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" width="64"/>  
-<br><br/>
+
+[![](https://skillicons.dev/icons?i=flutter,java)](https://skillicons.dev)
+
+### 🧙 Experimenting things with 🪄
+
+[![](https://skillicons.dev/icons?i=wasm)](https://skillicons.dev)
 ---    
-### Some stats
+### Some allegedly mandatory stats
 ![stats](https://github-readme-stats.vercel.app/api/top-langs?username=marcopeocchi&show_icons=true&locale=en&layout=compact)
 <br><br/>
 ---
