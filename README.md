@@ -1,3 +1,7 @@
+# Update
+I won't be active atm.
+I'm struggling with my mental health, going through a period of anxiety and depression.
+
 ## Hi there!
 Hi i'm Marco, a computer engineering student.    
 Kpop and power metal enthusiast (ehm, what?). Middle distance runner.
