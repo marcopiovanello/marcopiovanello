@@ -22,7 +22,7 @@ That's all 🤠
 
 ### 🧙 Experimenting things with 🪄
 
-[![](https://skillicons.dev/icons?i=wasm,rust)](https://skillicons.dev)
+[![](https://skillicons.dev/icons?i=haskell)](https://skillicons.dev)
 ---    
 ### Some allegedly mandatory stats
 ![stats](https://github-readme-stats.vercel.app/api/top-langs?username=marcopeocchi&show_icons=true&locale=en&layout=compact)
