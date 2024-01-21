@@ -1,7 +1,3 @@
-## Hi there!
-Hi i'm Marco, a computer engineering student.    
-Kpop and power metal enthusiast (ehm, what?). Middle distance runner.
-
 Gopher.  
 Typescript evangelist.
 
