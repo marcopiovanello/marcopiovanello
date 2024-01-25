@@ -1,0 +1,225 @@
+<!doctype html><html class="not-ready lg:text-base" style=--bg:#fbfbfb lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>How I structure big Go web projects - Nel retrobottega</title>
+<meta name=theme-color><meta name=description content="It&rsquo;s the 1 million dollars question: &ldquo;what&rsquo;s the best way to structure your Go web project?&rdquo;.
+There&rsquo;s none.
+But you can adapt one to your needs. One way I found working for me it&rsquo;s the following: a domain-ish driven architecture with a modular approach.
+The main star here is fx by Uber.
+What&rsquo;s fx? Fx is A dependency injection based application framework for Go. according to fx&rsquo;s GitHub page.
+It can helps you divide your project in modules and dependecies in providers and manage theirs entire life cylcles."><meta name=author content="Marco Piovanello"><link rel="preload stylesheet" as=style href=https://blog.nelretrobottega.xyz/main.min.css><link rel=preload as=image href=https://blog.nelretrobottega.xyz/theme.png><link rel=preload as=image href="https://cdn.v2ex.com/gravatar/6569200b6db25692e576f71d589ff97e?s=160&amp;d=identicon"><link rel=preload as=image href=https://blog.nelretrobottega.xyz/github.svg><link rel=preload as=image href=https://blog.nelretrobottega.xyz/rss.svg><script defer src=https://blog.nelretrobottega.xyz/highlight.min.js onload=hljs.initHighlightingOnLoad()></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css integrity=sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js integrity=sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",()=>renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}],throwOnError:!1}))</script><link rel=icon href=https://blog.nelretrobottega.xyz/favicon.ico><link rel=apple-touch-icon href=https://blog.nelretrobottega.xyz/apple-touch-icon.png><meta name=generator content="Hugo 0.121.2"><meta itemprop=name content="How I structure big Go web projects"><meta itemprop=description content="How i use dependency injection and domain driven architecture to modularize big projects"><meta itemprop=datePublished content="2024-01-24T11:41:06+01:00"><meta itemprop=dateModified content="2024-01-24T11:41:06+01:00"><meta itemprop=wordCount content="816"><meta itemprop=keywords content="go,golang,"><meta property="og:title" content="How I structure big Go web projects"><meta property="og:description" content="How i use dependency injection and domain driven architecture to modularize big projects"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.nelretrobottega.xyz/posts/golang/how-structure-big-projects/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-01-24T11:41:06+01:00"><meta property="article:modified_time" content="2024-01-24T11:41:06+01:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="How I structure big Go web projects"><meta name=twitter:description content="How i use dependency injection and domain driven architecture to modularize big projects"><link rel=canonical href=https://blog.nelretrobottega.xyz/posts/golang/how-structure-big-projects/></head><body class="text-black duration-200 ease-out dark:text-white"><header class="mx-auto flex h-[4.5rem] max-w-3xl px-8 lg:justify-center"><div class="relative z-50 mr-auto flex items-center"><a class="-translate-x-[1px] -translate-y-[1px] text-2xl font-semibold" href=https://blog.nelretrobottega.xyz/>Nel retrobottega</a><div class="btn-dark text-[0] ml-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]" role=button aria-label=Dark></div></div><div class="btn-menu relative z-50 -mr-8 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden" role=button aria-label=Menu></div><script>const htmlClass=document.documentElement.classList;setTimeout(()=>{htmlClass.remove("not-ready")},10);const btnMenu=document.querySelector(".btn-menu");btnMenu.addEventListener("click",()=>{htmlClass.toggle("open")});const metaTheme=document.querySelector('meta[name="theme-color"]'),lightBg="#fbfbfb".replace(/"/g,""),setDark=e=>{metaTheme.setAttribute("content",e?"#000":lightBg),htmlClass[e?"add":"remove"]("dark"),localStorage.setItem("dark",e)},darkScheme=window.matchMedia("(prefers-color-scheme: dark)");if(htmlClass.contains("dark"))setDark(!0);else{const e=localStorage.getItem("dark");setDark(e?e==="true":darkScheme.matches)}darkScheme.addEventListener("change",e=>{setDark(e.matches)});const btnDark=document.querySelector(".btn-dark");btnDark.addEventListener("click",()=>{setDark(localStorage.getItem("dark")!=="true")})</script><div class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"><nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6"><a class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal" href=/about>About</a>
+<a class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal" href=/tags>Tags</a></nav><nav class="mt-12 flex justify-center space-x-10 dark:invert lg:ml-12 lg:mt-0 lg:items-center lg:space-x-6"><a class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6" style=--url:url(./github.svg) href=https://github.com/marcopeocchi target=_blank rel=me>github
+</a><a class="h-8 w-8 text-[0] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6" style=--url:url(./rss.svg) href=https://blog.nelretrobottega.xyz/index.xml target=_blank rel=alternate>rss</a></nav></div></header><main class="prose prose-neutral relative mx-auto min-h-[calc(100%-9rem)] max-w-3xl px-8 pb-16 pt-12 dark:prose-invert"><article><header class=mb-16><h1 class="!my-0 pb-2.5">How I structure big Go web projects</h1><div class="text-sm antialiased opacity-60"><time>Jan 24, 2024</time>
+<span class=mx-1>&#183;</span>
+<span>Marco Piovanello</span></div></header><section><p>It&rsquo;s the 1 million dollars question: &ldquo;what&rsquo;s the best way to structure your Go web project?&rdquo;.<br>There&rsquo;s none.<br>But you can adapt one to your needs. One way I found working for me it&rsquo;s the following: a domain-ish driven architecture with a modular approach.</p><p>The main star here is <a href=https://github.com/uber-go/fx>fx</a> by Uber.</p><h2 id=whats-fx>What&rsquo;s fx?</h2><p>Fx is <em>A dependency injection based application framework for Go.</em> according to fx&rsquo;s GitHub page.<br>It can helps you divide your project in <strong>modules</strong> and dependecies in <strong>providers</strong> and manage theirs entire <strong>life cylcles</strong>.</p><p>What&rsquo;s really nice about fx is that there&rsquo;s no build time and <code>//go:generate</code> / <code>//go:build</code> / code genaration shenanigans unlike <a href=https://github.com/google/wire>wire</a> and most importantly no <strong>reflection</strong>.</p><h2 id=defining-a-module-structure>Defining a module structure</h2><p>A module in follows this structure:</p><pre tabindex=0><code>📦internal
+ ┣ 📂user           -&gt;  module package
+ ┃ ┣ 📂db           -&gt;  contains db models and queries
+ ┃ ┃ ┣ 📜db.go
+ ┃ ┃ ┣ 📜models.go
+ ┃ ┃ ┗ 📜query.sql.go
+ ┃ ┣ 📂repository   -&gt;  repository handles db accesing logic
+ ┃ ┃ ┗ 📜user.go
+ ┃ ┣ 📂rest
+ ┃ ┃ ┗ 📜handler.go -&gt;  rest handler functions
+ ┃ ┣ 📂service      -&gt;  service handles domain level logic
+ ┃ ┃ ┗ 📜user.go
+ ┃ ┣ 📜module.go    -&gt;  defines and exports a module
+ ┃ ┣ 📜query.sql    -&gt;  sqlc queries
+ ┃ ┣ 📜schema.sql   -&gt;  sqlc db models
+ ┃ ┗ 📜sqlc.yaml    -&gt;  generates db package
+ ┣ 📜user.go        -&gt;  domain level structs and validate func
+ ┗ 📜validation.go  -&gt;  module agnostic validation utils (regexes, ...)
+</code></pre><p>It ensures isolated and self-containing modules for each domain.</p><p>Let&rsquo;s look at <code>module.go</code> file and we&rsquo;ll top-down from there.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#f92672>package</span> <span style=color:#a6e22e>user</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> (
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;github.com/marcopeocchi/fx-sample-app/internal/user/repository&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;github.com/marcopeocchi/fx-sample-app/internal/user/rest&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;github.com/marcopeocchi/fx-sample-app/internal/user/service&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;github.com/gin-gonic/gin&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;go.uber.org/fx&#34;</span>
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>Module</span> = <span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>Module</span>(
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;user&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>Provide</span>(<span style=color:#a6e22e>repository</span>.<span style=color:#a6e22e>NewRepository</span>),
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>Provide</span>(<span style=color:#a6e22e>service</span>.<span style=color:#a6e22e>NewService</span>),
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>Provide</span>(<span style=color:#a6e22e>rest</span>.<span style=color:#a6e22e>NewHandler</span>),
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>Invoke</span>(<span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>h</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>rest</span>.<span style=color:#a6e22e>Handler</span>, <span style=color:#a6e22e>g</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>RouterGroup</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>RegisterRoutes</span>(<span style=color:#a6e22e>g</span>)
+</span></span><span style=display:flex><span>  }),
+</span></span><span style=display:flex><span>)
+</span></span></code></pre></div><p><code>user.go</code></p><p>This file contains all domain level data and validation functions.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#f92672>package</span> <span style=color:#a6e22e>internal</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> (
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;time&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>validation</span> <span style=color:#e6db74>&#34;github.com/go-ozzo/ozzo-validation/v4&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;github.com/go-ozzo/ozzo-validation/v4/is&#34;</span>
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>User</span> <span style=color:#66d9ef>struct</span> {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>ID</span>        <span style=color:#66d9ef>int64</span>     <span style=color:#e6db74>`json:&#34;id&#34;`</span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>Admin</span>     <span style=color:#66d9ef>bool</span>      <span style=color:#e6db74>`json:&#34;admin&#34;`</span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>Email</span>     <span style=color:#66d9ef>string</span>    <span style=color:#e6db74>`json:&#34;email&#34;`</span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>Username</span>  <span style=color:#66d9ef>string</span>    <span style=color:#e6db74>`json:&#34;username&#34;`</span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>Password</span>  <span style=color:#66d9ef>string</span>    <span style=color:#e6db74>`json:&#34;password&#34;`</span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>CreatedAt</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Time</span> <span style=color:#e6db74>`json:&#34;createdAt&#34;`</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>u</span> <span style=color:#a6e22e>User</span>) <span style=color:#a6e22e>Validate</span>() <span style=color:#66d9ef>error</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>validation</span>.<span style=color:#a6e22e>ValidateStruct</span>(<span style=color:#f92672>&amp;</span><span style=color:#a6e22e>u</span>,
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>validation</span>.<span style=color:#a6e22e>Field</span>(<span style=color:#f92672>&amp;</span><span style=color:#a6e22e>u</span>.<span style=color:#a6e22e>Email</span>, <span style=color:#a6e22e>validation</span>.<span style=color:#a6e22e>Required</span>, <span style=color:#a6e22e>is</span>.<span style=color:#a6e22e>Email</span>),
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>validation</span>.<span style=color:#a6e22e>Field</span>(<span style=color:#f92672>&amp;</span><span style=color:#a6e22e>u</span>.<span style=color:#a6e22e>Username</span>, <span style=color:#a6e22e>validation</span>.<span style=color:#a6e22e>Length</span>(<span style=color:#ae81ff>4</span>, <span style=color:#ae81ff>32</span>), <span style=color:#a6e22e>validation</span>.<span style=color:#a6e22e>Required</span>),
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>validation</span>.<span style=color:#a6e22e>Field</span>(<span style=color:#f92672>&amp;</span><span style=color:#a6e22e>u</span>.<span style=color:#a6e22e>Password</span>, <span style=color:#a6e22e>validation</span>.<span style=color:#a6e22e>Length</span>(<span style=color:#ae81ff>8</span>, <span style=color:#ae81ff>0</span>), <span style=color:#a6e22e>validation</span>.<span style=color:#a6e22e>Required</span>),
+</span></span><span style=display:flex><span>  )
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><code>repository/user.go</code></p><p>A repository handles all db/data access layer functionalites.<br>Theoretically if you need a caching layer it should be implemented here.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Repository</span> <span style=color:#66d9ef>struct</span> {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>conn</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>pgxpool</span>.<span style=color:#a6e22e>Pool</span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>q</span>    <span style=color:#f92672>*</span><span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>Queries</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>NewRepository</span>(<span style=color:#a6e22e>conn</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>pgxpool</span>.<span style=color:#a6e22e>Pool</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>Repository</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Repository</span>{
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>conn</span>: <span style=color:#a6e22e>conn</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>q</span>:    <span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>conn</span>)
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>r</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Repository</span>) <span style=color:#a6e22e>GetUserById</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>id</span> <span style=color:#66d9ef>int64</span>) (<span style=color:#f92672>*</span><span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>User</span>, <span style=color:#66d9ef>error</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>model</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>r</span>.<span style=color:#a6e22e>q</span>.<span style=color:#a6e22e>GetUserById</span>(<span style=color:#a6e22e>id</span>)
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>, <span style=color:#a6e22e>err</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>model</span>, <span style=color:#a6e22e>err</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><code>service/user.go</code></p><p>A service needs to convert objects to the domain layer and call repository or other repositories
+in order to access data.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Service</span> <span style=color:#66d9ef>struct</span> {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>repo</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>repository</span>.<span style=color:#a6e22e>Repository</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>NewService</span>(<span style=color:#a6e22e>r</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>repository</span>.<span style=color:#a6e22e>Repository</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>Service</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Service</span>{
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>repo</span>: <span style=color:#a6e22e>r</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>s</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Service</span>) <span style=color:#a6e22e>GetUserById</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>id</span> <span style=color:#66d9ef>int64</span>) (<span style=color:#f92672>*</span><span style=color:#a6e22e>internal</span>.<span style=color:#a6e22e>User</span>, <span style=color:#66d9ef>error</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>model</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>repo</span>.<span style=color:#a6e22e>GetUserById</span>(<span style=color:#a6e22e>id</span>)
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>, <span style=color:#a6e22e>err</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// convert it to a domain level user struct
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>internal</span>.<span style=color:#a6e22e>User</span>{
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Id</span>:        <span style=color:#a6e22e>model</span>.<span style=color:#a6e22e>Id</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Admin</span>:     <span style=color:#a6e22e>model</span>.<span style=color:#a6e22e>Admin</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Username</span>:  <span style=color:#a6e22e>model</span>.<span style=color:#a6e22e>Username</span>,
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Password</span>:  <span style=color:#a6e22e>model</span>.<span style=color:#a6e22e>Password</span>,
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>CreatedAt</span>: <span style=color:#a6e22e>model</span>.<span style=color:#a6e22e>CreatedAt</span>.<span style=color:#a6e22e>Time</span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>Email</span>:     <span style=color:#a6e22e>model</span>.<span style=color:#a6e22e>Email</span>,
+</span></span><span style=display:flex><span>  }, <span style=color:#66d9ef>nil</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><code>rest/handler.go</code></p><p>A REST handler it quite self-explanatory provides a REST interface to access data. It is
+framework agnostic, in this example I&rsquo;ll use Gin, but you can use straight <code>net/http</code> which is what
+I will also normally do.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Handler</span> <span style=color:#66d9ef>struct</span> {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>service</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>service</span>.<span style=color:#a6e22e>Service</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>NewHandler</span>(<span style=color:#a6e22e>s</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>service</span>.<span style=color:#a6e22e>Service</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>Handler</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Handler</span>{
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>service</span>: <span style=color:#a6e22e>s</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>s</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Service</span>) <span style=color:#a6e22e>getUserById</span>(<span style=color:#a6e22e>router</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>RouterGroup</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>router</span>.<span style=color:#a6e22e>GET</span>(<span style=color:#e6db74>&#34;/user/:id&#34;</span>, <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Context</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>id</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>strconv</span>.<span style=color:#a6e22e>ParseInt</span>(<span style=color:#a6e22e>ctx</span>.<span style=color:#a6e22e>Param</span>(<span style=color:#e6db74>&#34;id&#34;</span>), <span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>64</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>ctx</span>.<span style=color:#a6e22e>AbortWithStatusJSON</span>(<span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>StatusBadRequest</span>, <span style=color:#a6e22e>err</span>.<span style=color:#a6e22e>Error</span>())
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>return</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>user</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>service</span>.<span style=color:#a6e22e>GetUserById</span>(<span style=color:#a6e22e>ctx</span>, <span style=color:#a6e22e>id</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>ctx</span>.<span style=color:#a6e22e>AbortWithStatusJSON</span>(<span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>StatusInternalServerError</span>, <span style=color:#a6e22e>err</span>.<span style=color:#a6e22e>Error</span>())
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>return</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>ctx</span>.<span style=color:#a6e22e>JSON</span>(<span style=color:#a6e22e>http</span>.<span style=color:#a6e22e>StatusOK</span>, <span style=color:#a6e22e>users</span>)
+</span></span><span style=display:flex><span>  })
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>h</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Handler</span>) <span style=color:#a6e22e>RegisterRoutes</span>(<span style=color:#a6e22e>router</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>RouterGroup</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>getUserById</span>(<span style=color:#a6e22e>router</span>)
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Let&rsquo;s define an app and it&rsquo;s dependencies to provide/inject and wrap it up.</p><p><code>main.go</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>New</span>(
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>Provide</span>(<span style=color:#a6e22e>newLogger</span>),
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>Provide</span>(
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>newGin</span>,
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>newApiV1Group</span>,
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>newPostgresPool</span>,
+</span></span><span style=display:flex><span>    ),
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>user</span>.<span style=color:#a6e22e>Module</span>,
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>Invoke</span>(<span style=color:#a6e22e>run</span>),
+</span></span><span style=display:flex><span>  ).<span style=color:#a6e22e>Run</span>()
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>newPostgresPool</span>(<span style=color:#a6e22e>lc</span> <span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>Lifecycle</span>, <span style=color:#a6e22e>logger</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>zap</span>.<span style=color:#a6e22e>Logger</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>pgxpool</span>.<span style=color:#a6e22e>Pool</span> {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>dsn</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Getenv</span>(<span style=color:#e6db74>&#34;POSTGRES_DSN&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>ctx</span>, <span style=color:#a6e22e>cancel</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>WithTimeout</span>(<span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Background</span>(), <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Second</span><span style=color:#f92672>*</span><span style=color:#ae81ff>5</span>)
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>defer</span> <span style=color:#a6e22e>cancel</span>()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pool</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>pgxpool</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>ctx</span>, <span style=color:#a6e22e>dsn</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>logger</span>.<span style=color:#a6e22e>Sugar</span>().<span style=color:#a6e22e>Fatalln</span>(<span style=color:#a6e22e>err</span>)
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>lc</span>.<span style=color:#a6e22e>Append</span>(<span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>Hook</span>{
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>OnStop</span>: <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>) <span style=color:#66d9ef>error</span> {
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>cancel</span>()
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>pool</span>.<span style=color:#a6e22e>Close</span>()
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>  })
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>pool</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>newGin</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Engine</span> {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Default</span>()
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>run</span>(<span style=color:#a6e22e>r</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Engine</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>r</span>.<span style=color:#a6e22e>Run</span>()
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>newApiV1Group</span>(<span style=color:#a6e22e>r</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>Engine</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>gin</span>.<span style=color:#a6e22e>RouterGroup</span> {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>r</span>.<span style=color:#a6e22e>Use</span>(<span style=color:#a6e22e>gzip</span>.<span style=color:#a6e22e>Gzip</span>(<span style=color:#a6e22e>gzip</span>.<span style=color:#a6e22e>DefaultCompression</span>))
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>r</span>.<span style=color:#a6e22e>Use</span>(<span style=color:#a6e22e>cors</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>cors</span>.<span style=color:#a6e22e>Config</span>{
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>AllowOrigins</span>:     []<span style=color:#66d9ef>string</span>{<span style=color:#e6db74>&#34;*&#34;</span>},
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>AllowMethods</span>:     []<span style=color:#66d9ef>string</span>{<span style=color:#e6db74>&#34;GET&#34;</span>, <span style=color:#e6db74>&#34;POST&#34;</span>, <span style=color:#e6db74>&#34;PUT&#34;</span>, <span style=color:#e6db74>&#34;PATCH&#34;</span>, <span style=color:#e6db74>&#34;DELETE&#34;</span>, <span style=color:#e6db74>&#34;OPTIONS&#34;</span>},
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>AllowHeaders</span>:     []<span style=color:#66d9ef>string</span>{<span style=color:#e6db74>&#34;Origin&#34;</span>, <span style=color:#e6db74>&#34;Content-Type&#34;</span>},
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>ExposeHeaders</span>:    []<span style=color:#66d9ef>string</span>{<span style=color:#e6db74>&#34;Content-Length&#34;</span>, <span style=color:#e6db74>&#34;Content-Type&#34;</span>},
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>AllowCredentials</span>: <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>  }))
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>r</span>.<span style=color:#a6e22e>Group</span>(<span style=color:#e6db74>&#34;/api/v1&#34;</span>)
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>newLogger</span>(<span style=color:#a6e22e>lc</span> <span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>Lifecycle</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>zap</span>.<span style=color:#a6e22e>Logger</span> {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>logger</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>zap</span>.<span style=color:#a6e22e>NewProduction</span>()
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>os</span>.<span style=color:#a6e22e>Exit</span>(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>lc</span>.<span style=color:#a6e22e>Append</span>(<span style=color:#a6e22e>fx</span>.<span style=color:#a6e22e>Hook</span>{
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>OnStop</span>: <span style=color:#66d9ef>func</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>) <span style=color:#66d9ef>error</span> {
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>logger</span>.<span style=color:#a6e22e>Sync</span>()
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>  })
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>logger</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=conclusions>Conclusions</h2><p>This structure really shines with many modules 4+ I&rsquo;ll say.<br>Adding or removing dependencies is quite easy and straightforward, let&rsquo;s say i wanted to add a <strong>redis</strong> client:
+what I need is creating a new constructor function and pass it to the <strong>fx.Provide</strong> as an additional argument, then
+the repository constructor will also be modified to accept a the redis client and voilà.</p></section><footer class="mt-12 flex flex-wrap"><a class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]" href=https://blog.nelretrobottega.xyz/tags/go>go</a>
+<a class="mb-1.5 mr-1.5 rounded-lg bg-black/[3%] px-5 py-1.5 no-underline dark:bg-white/[8%]" href=https://blog.nelretrobottega.xyz/tags/golang>golang</a></footer><nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]"><a class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]" href=https://blog.nelretrobottega.xyz/posts/golang/thumbnail-generator/><span>Concurrent thumbnail generator</span><span class=ml-1.5>→</span></a></nav></article></main><footer class="opaco mx-auto flex h-[4.5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"><div class=mr-auto>&copy; 2024
+<a class=link href=https://blog.nelretrobottega.xyz/>Nel retrobottega</a></div><a class="link mx-6" href=https://gohugo.io/ rel=noopener target=_blank>Powered by Hugo️️</a>️
+<a class=link href=https://github.com/nanxiaobei/hugo-paper rel=noopener target=_blank>✎ Paper</a></footer></body></html>
