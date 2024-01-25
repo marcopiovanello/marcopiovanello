@@ -1,0 +1,60 @@
+baseURL = "https://blog.nelretrobottega.xyz/"
+languageCode = "en-us"
+theme = "paper"
+paginate = 5
+
+[params]
+  # color style
+  color = 'gray'                           # linen, wheat, gray, light
+
+  # header social icons
+  #twitter = 'YOUR_TWITTER_ID'               # twitter.com/YOUR_TWITTER_ID
+  github = 'marcopeocchi'                 # github.com/YOUR_GITHUB_ID
+  #instagram = 'YOUR_INSTAGRAM_ID'           # instagram.com/YOUR_INSTAGRAM_ID
+  #linkedin = 'YOUR_LINKEDIN_ID'             # linkedin.com/in/YOUR_LINKEDIN_ID
+  #mastodon = 'YOUR_MASTODON_LINK'           # e.g. 'https://mastodon.instance/@xxx'
+  rss = true                                # show rss icon
+
+  # home page profile
+  avatar = 'marco.piovanello@gmail.com'                 # gravatar email or image url
+  name = 'Marco'
+  bio = 'Software engineer with 5+ years of experience. During university i fell in love with the Go programming language, from there, I build almost everything with it.'
+
+
+  # misc
+  disableHLJS = false                        # disable highlight.js
+  disablePostNavigation = false              # disable post navigation
+  monoDarkIcon = false                       # show monochrome dark mode icon
+  gravatarCdn = 'https://cdn.v2ex.com/gravatar/'         # e.g. 'https://cdn.v2ex.com/gravatar/'
+  math = true                               # enable KaTeX math typesetting globally
+  #graphCommentId = "YOUR_GRAPH_COMMENT_ID"  # use graph comment (disqus alternative)
+
+  [languages]
+  [languages.en]
+    languageName = "English"
+    title = "Nel retrobottega"
+    subtitle = "Another SE blog"
+    owner = "Marco Piovanello"
+    keywords = ""
+    copyright = ""
+    menuMore = "Show more"
+    readMore = "Read more"
+    readOtherPosts = "Read other posts"
+    newerPosts = "Newer posts"
+    olderPosts = "Older posts"
+    missingContentMessage = "Page not found..."
+    missingBackButtonLabel = "Back to home page"
+
+    [languages.en.params.logo]
+      logoText = "Home"
+      logoHomeLink = "/"
+
+    [languages.en.menu]
+      [[languages.en.menu.main]]
+        identifier = "about"
+        name = "About"
+        url = "/about"
+      [[languages.en.menu.main]]
+        identifier = "tags"
+        name = "Tags"
+        url = "/tags"
