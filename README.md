@@ -5,16 +5,16 @@ That's all 🤠
 
 ### ❤️ Technologies I love to use ❤️
 
-[![](https://skillicons.dev/icons?i=go,typescript,svelte,react,tailwind,mui,reactivex)](https://skillicons.dev)
+[![](https://skillicons.dev/icons?i=go,typescript,svelte,react,tailwind,reactivex)](https://skillicons.dev)
 
           
 ### 🐓 Currently working with 🐓
 
-[![](https://skillicons.dev/icons?i=flutter,java)](https://skillicons.dev)
+[![](https://skillicons.dev/icons?i=flutter,java,spring)](https://skillicons.dev)
 
 ### 🧙 Experimenting things with 🪄
 
-[![](https://skillicons.dev/icons?i=haskell)](https://skillicons.dev)
+[![](https://skillicons.dev/icons?i=rust)](https://skillicons.dev)
 ---    
 ### Some allegedly mandatory stats
 ![stats](https://github-readme-stats.vercel.app/api/top-langs?username=marcopeocchi&show_icons=true&locale=en&layout=compact)
