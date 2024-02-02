@@ -1,7 +1,7 @@
 ---
 title: "Send E-Mails with Go using net/smtp package"
 date: 2024-02-02T13:29:25+01:00
-draft: true
+draft: false
 cover: ""
 tags: [
     "go",
