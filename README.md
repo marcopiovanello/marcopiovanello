@@ -1,11 +1,16 @@
-Gopher.  
-Typescript evangelist.
+I can't not use Go.  
+
+Good and reliable code is stupid code.  
+Buggy and unreliable code is mostly overabstracted code.
+
+Strive for semplicity, avoid business-entrprise-corporate code.  
+There's nothing worse than a soydev. (personal experience)
 
 That's all 🤠
 
-### ❤️ Technologies I love to use ❤️
+### What I love to use
 
-[![](https://skillicons.dev/icons?i=go,typescript,svelte,react,tailwind,reactivex)](https://skillicons.dev)
+[![](https://skillicons.dev/icons?i=go,typescript,svelte)](https://skillicons.dev)
 
           
 ### 🐓 Currently working with 🐓
@@ -14,7 +19,7 @@ That's all 🤠
 
 ### 🧙 Experimenting things with 🪄
 
-[![](https://skillicons.dev/icons?i=rust)](https://skillicons.dev)
+[![](https://skillicons.dev/icons?i=nix)](https://skillicons.dev)
 ---    
 ### Some allegedly mandatory stats
 ![stats](https://github-readme-stats.vercel.app/api/top-langs?username=marcopeocchi&show_icons=true&locale=en&layout=compact)
