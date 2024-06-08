@@ -1,6 +1,6 @@
-I can't not use Go.  
+I can't do without using Go.  
 
-Good and reliable code is stupid code.  
+Good and reliable code is boring and silly code.  
 Buggy and unreliable code is mostly overabstracted code.
 
 Strive for semplicity, avoid business-entrprise-corporate code.  
