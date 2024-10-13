@@ -10,12 +10,12 @@ That's all 🤠
 
 ### What I love to use
 
-[![](https://skillicons.dev/icons?i=go,typescript,svelte)](https://skillicons.dev)
+[![](https://skillicons.dev/icons?i=go,typescript)](https://skillicons.dev)
 
           
 ### 🐓 Currently working with 🐓
 
-[![](https://skillicons.dev/icons?i=flutter,java,spring)](https://skillicons.dev)
+[![](https://skillicons.dev/icons?i=flutter,java,spring,angular)](https://skillicons.dev)
 
 ### 🧙 Experimenting things with 🪄
 
