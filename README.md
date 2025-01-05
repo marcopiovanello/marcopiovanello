@@ -1,12 +1,5 @@
-I can't do without using Go.  
-
-Good and reliable code is boring and silly code.  
-Buggy and unreliable code is mostly overabstracted code.
-
-Strive for semplicity, avoid business-entrprise-corporate code.  
-There's nothing worse than a soydev. (personal experience)
-
-That's all 🤠
+*You need to rewrite it in Rust*
+*- A Soydev*
 
 ### What I love to use
 
