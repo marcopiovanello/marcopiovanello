@@ -22,7 +22,7 @@ That's all 🤠
 [![](https://skillicons.dev/icons?i=nix)](https://skillicons.dev)
 ---    
 ### Some allegedly mandatory stats
-![stats](https://github-readme-stats.vercel.app/api/top-langs?username=marcopeocchi&show_icons=true&locale=en&layout=compact)
+![stats](https://github-readme-stats.vercel.app/api/top-langs?username=marcopiovanello&show_icons=true&locale=en&layout=compact)
 <br><br/>
 ---
 
