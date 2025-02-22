@@ -8,11 +8,11 @@
           
 ### 🐓 Currently working with 🐓
 
-[![](https://skillicons.dev/icons?i=flutter,java,spring,angular)](https://skillicons.dev)
+[![](https://skillicons.dev/icons?i=flutter,java,spring,angular,docker)](https://skillicons.dev)
 
 ### 🧙 Experimenting things with 🪄
 
-[![](https://skillicons.dev/icons?i=nix)](https://skillicons.dev)
+[![](https://skillicons.dev/icons?i=nix,kubernetes)](https://skillicons.dev)
 ---    
 ### Some allegedly mandatory stats
 ![stats](https://github-readme-stats.vercel.app/api/top-langs?username=marcopiovanello&show_icons=true&locale=en&layout=compact)
